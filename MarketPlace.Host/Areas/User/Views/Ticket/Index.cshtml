@@ -1,0 +1,82 @@
+﻿@model Infa.Domain.ViewModels.Contact.FilterTicketVM
+@{
+    ViewData["title"] = "تیکت ها";
+}
+
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                    <!-- Nav tabs -->
+                    <div class="dashboard_tab_button">
+                        @await Component.InvokeAsync("SideBar")
+                    </div>
+                </div>
+                <div class="col-sm-9 col-md-9 col-lg-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane fade" id="dashboard">
+                            <h3>داشبورد </h3>
+                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با <a href="#">سفارشات اخیر</a>لورم ایپسوم متن <a href="#">لورم ایپسوم متن ساختگی با تولید</a> لورم <a href="#">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم</a></p>
+                        </div>
+                        <div class="tab-pane fade active show" id="downloads">
+                            <div class="table-responsive">
+                                @if (Model.Tickets != null && Model.Tickets.Any())
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>موضوع</th>
+                                                <th>تاریخ</th>
+                                                <th>اولویت</th>
+                                                <th>بخش مورد نظر</th>
+                                                <th>وضعیت</th>
+                                                <th>جزییات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model.Tickets)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(Model=>item.Title)</td>
+                                                    <td>@item.CreateAt</td>
+                                                    <td>@Html.DisplayFor(Model=>item.TicketPriority)</td>
+                                                    <td>@Html.DisplayFor(Model=>item.TicketSection)</td>
+                                                    <td>@Html.DisplayFor(Model=>item.TicketState)</td>
+                                                    <td><a href="http://localhost:5076/tickets/@item.Id" class="view">نمایش جزییات</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+
+                                else
+                                {
+                                    <partial name="_NoItemFound" />
+                                }
+                            </div>
+                        </div>
+                        <div class="dashboard_tab_button row">
+                            <ul role="button" class="nav flex-column dashboard-list row col-md-12">
+                                <li class="col-md-3"><a asp-area="User" asp-controller="Ticket" asp-action="SubmitTicket" class="nav-link">ثبت تیکت جدید</a></li>
+
+                            </ul>
+                            <ul role="button" class="nav flex-column dashboard-list row col-md-12">
+                                <li class="col-md-3"><a asp-area="User" asp-controller="home" asp-action="index" class="nav-link">بازگشت</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 ">
+                    <!-- Nav tabs -->
+                    <div class="dashboard_tab_button">
+                        @await Component.InvokeAsync("LeftSideBar")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

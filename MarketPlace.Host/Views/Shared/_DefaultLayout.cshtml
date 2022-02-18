@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        @TempData["title"]
+    </title>
+    <partial name="_HeaderReferences" />
+    <partial name="_TagReferences" />
+</head>
+<body>
+
+    @await Component.InvokeAsync("SiteHeader")
+    @RenderBody()
+    @await Component.InvokeAsync("SiteFooter")
+
+
+    <partial name="_FooterReferences" />
+    <partial name="_ShowMessage" />
+</body>
+</html>

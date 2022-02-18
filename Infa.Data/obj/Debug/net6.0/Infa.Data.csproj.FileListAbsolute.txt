@@ -1,0 +1,17 @@
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Data.deps.json
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Data.runtimeconfig.json
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Data.dll
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\ref\Infa.Data.dll
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Data.pdb
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Domain.dll
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\bin\Debug\net6.0\Infa.Domain.pdb
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.csproj.AssemblyReference.cache
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.AssemblyInfoInputs.cache
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.AssemblyInfo.cs
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.csproj.CoreCompileInputs.cache
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.csproj.CopyComplete
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.dll
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\ref\Infa.Data.dll
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.pdb
+C:\Users\moham\source\repos\MarketPlace\Infa.Data\obj\Debug\net6.0\Infa.Data.genruntimeconfig.cache

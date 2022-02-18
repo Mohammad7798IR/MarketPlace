@@ -1,0 +1,62 @@
+﻿@model Infa.Domain.ViewModels.Contact.AddUserTicketVM
+@using Infa.Domain.Models.Contacts
+@{
+    ViewData["Title"] = "پشتیبانی";
+}
+
+
+
+
+
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    @await Component.InvokeAsync("SideBar")
+                </div>
+                <div class="col-sm-12 col-md-9 col-lg-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane fade active show" id="account-details">
+                            <h3>@ViewData["Title"] </h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <form asp-area="User" asp-controller="Ticket" asp-action="SubmitTicket">
+                                            <partial name="_CaptchaInput" />
+                                            <label>موضوع</label>
+                                            <input asp-for="Title" type="text">
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+
+                                            <div class="form-group row col-md-12 ">
+                                                <div class="form-group col-md-6">
+                                                    <label>بخش مورد نظر</label>
+                                                    <select asp-for="TicketSection" asp-items="@Html.GetEnumSelectList<TicketSection>()" class="form-control"></select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>اولویت </label>
+                                                    <select asp-for=TicketPriority asp-items="@Html.GetEnumSelectList<TicketPriority>()" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                            <label>متن</label>
+                                            <textarea class="form-control" asp-for="Text" rows="10"></textarea>
+                                            <span asp-validation-for="Text" class="text-danger"></span>
+                                            <br>
+
+                                            <div class="save_button primary_btn default_button">
+                                                <button type="submit">ذخیره</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

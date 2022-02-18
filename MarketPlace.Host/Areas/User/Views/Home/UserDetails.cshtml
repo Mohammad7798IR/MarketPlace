@@ -1,0 +1,85 @@
+﻿@using Infa.Domain.Models.Identity
+@using Infa.Application.Utils
+@model Infa.Domain.ViewModels.Userpanel.UserDetailsVM
+
+
+@{
+    TempData["Title"] = "جزئیات حساب";
+}
+
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    @await Component.InvokeAsync("SideBar")
+                </div>
+                <div class="col-sm-12 col-md-9 col-lg-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane fade active show" id="account-details">
+                            <h3>@ViewData["Title"] </h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <form asp-area="User" asp-controller="Home" asp-action="UserDetails" enctype="multipart/form-data">
+                                            <partial name="_CaptchaInput" />
+                                            <br>
+                                            <div class="row">
+                                                <div>
+                                                    <label>جنسیت:</label>
+                                                    <select class="form-ctrl col-md-6" asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()"></select>
+                                                </div>
+
+                                                <div>
+                                                    <img style="border-radius:50%; width:150px"
+                                                         src="@(!string.IsNullOrEmpty(Model.ImageName) ? FilePath.UserAvatarOrigin + Model.ImageName : FilePath.DefaultAvatar)" alt="Alternate Text" id="imgPreview" />
+                                                         <input accept="image/*" id="photo" type="file" name="avatar" />
+                                                </div>
+                                            </div>
+
+                                            <label>نام</label>
+                                            <input asp-for="FirstName" type="text">
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                            <label>نام خانوادگی</label>
+                                            <input asp-for=LastName type="text">
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                            <label>نام کاربری</label>
+                                            <input asp-for=Username type="text">
+                                            <span asp-validation-for="Username" class="text-danger"></span>
+                                            <label>ایمیل</label>
+                                            <input asp-for=Email type="email" disabled>
+                                            <label>رمز عبور جدید</label>
+                                            <input asp-for=Password type="password">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                            <br />
+                                            <label>تکرار رمز عبور</label>
+                                            <input asp-for=ConfirmPassword type="password">
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                            <br />
+                                            <label>شماره تلفن</label>
+                                            <input asp-for=PhoneNumber type="tel">
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            <br>
+
+
+                                            <div class="save_button primary_btn default_button">
+                                                <button type="submit">ذخیره</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+

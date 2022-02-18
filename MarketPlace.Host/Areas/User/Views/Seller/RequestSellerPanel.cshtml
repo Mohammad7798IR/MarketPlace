@@ -1,0 +1,78 @@
+﻿@using Infa.Application.Utils
+@model Infa.Domain.ViewModels.Store.RequestSellerVM
+
+
+
+@{
+    TempData["Title"] = "درخواست فروشندگی";
+}
+
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    @await Component.InvokeAsync("SideBar")
+                </div>
+                <div class="col-sm-12 col-md-9 col-lg-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane fade active show" id="account-details">
+                            <h3>@ViewData["Title"] </h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <form asp-area="User" asp-controller="Seller" asp-action="RequestSellerPanel" enctype="multipart/form-data">
+                                            <partial name="_CaptchaInput" />
+                                            <br>
+                                      
+                                            <label>نام فروشگاه </label>
+                                            <input asp-for=StoreName type="text">
+                                            <span asp-validation-for="StoreName" class="text-danger"></span>
+
+                                            <label>ادرس</label>
+                                            <input asp-for="Address" type="text">
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+
+                                            <label>توضیحات </label>
+                                            <input asp-for=Description type="text">
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+
+
+                                            <div class="col-md-12 row">
+                                                <div class="col-md-6">
+                                                    <br />
+                                                    <label>شماره ثابت</label>
+                                                    <input asp-for=PhoneNumber type="tel">
+                                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <br />
+                                                    <label>شماره همراه</label>
+                                                    <input asp-for=MobileNumber type="tel">
+                                                    <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                                                    <br>
+                                                </div>
+
+                                            </div>
+                                            <div class="save_button primary_btn default_button">
+                                                <button type="submit">ذخیره</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
