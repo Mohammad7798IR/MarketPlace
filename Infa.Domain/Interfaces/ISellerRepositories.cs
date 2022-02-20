@@ -12,18 +12,19 @@ namespace Infa.Domain.Interfaces
     public interface ISellerRepositories
     {
 
-        Task AddSeller(Seller seller);
-
         Task<bool> HasUnderProgressRequest(string sellerId);
 
         Task<ApplicationUser> GetUserAndSeller(string userId);
 
         Task<List<ApplicationUser>> GetListOfUserAndSeller(string userId);
 
-
         Task<Seller> GetSellerById(string sellerId);
 
+        Task<List<Seller>> GetAllSellers();
+
         Task SaveChanges();
+
+        Task AddSeller(Seller seller);
 
         void UpdateSeller(Seller seller);
 

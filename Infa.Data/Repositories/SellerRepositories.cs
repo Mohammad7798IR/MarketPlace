@@ -20,7 +20,7 @@ namespace Infa.Data.Repositories
             _context = context;
         }
 
-       
+     
     }
     public partial class SellerRepositories
     {
@@ -48,11 +48,16 @@ namespace Infa.Data.Repositories
                   .Include(s => s.Sellers).Where(u => u.Id == userId).ToListAsync();
         }
 
-
         public async Task<Seller> GetSellerById(string sellerId)
         {
             return await _context.Sellers.AsQueryable()
                 .Where(s=>s.Id==sellerId).SingleOrDefaultAsync();
+        }
+
+        public async Task<List<Seller>> GetAllSellers()
+        {
+            return await _context.Sellers.AsQueryable()
+                .Where(x => x.IsDeleted == false).ToListAsync();
         }
     }
 

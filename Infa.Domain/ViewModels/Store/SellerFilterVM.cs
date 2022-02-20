@@ -16,6 +16,7 @@ namespace Infa.Domain.ViewModels.Store
 
         public string PhoneNumber { get; set; }
 
+        public string MobileNumber { get; set; }
 
         public string Address { get; set; }
 

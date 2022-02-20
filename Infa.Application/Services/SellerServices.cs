@@ -37,7 +37,7 @@ namespace Infa.Application.Services
             _userRepositories = userRepositories;
         }
 
-       
+
     }
 
 
@@ -69,7 +69,7 @@ namespace Infa.Application.Services
             var newSeller = new Seller()
             {
                 Id = Guid.NewGuid().ToString(),
-                Code = code +1,
+                Code = code + 1,
                 UserId = user.Id,
                 CreateAt = PersianDateTime.Now(),
                 MobileNumber = sellerVM.MobileNumber,
@@ -91,13 +91,11 @@ namespace Infa.Application.Services
 
         }
 
-
-
-        public async Task<EditRequestSellerVM> GetInfoToEditRequestSellerPanel(string sellerId , string userId)
+        public async Task<EditRequestSellerVM> GetInfoToEditRequestSellerPanel(string sellerId, string userId)
         {
-            var seller =  _sellerRepositories.GetSellerById(sellerId).Result;
+            var seller = _sellerRepositories.GetSellerById(sellerId).Result;
 
-            if (seller == null || seller.UserId!=userId )
+            if (seller == null || seller.UserId != userId)
             {
                 return null;
             }
@@ -109,22 +107,20 @@ namespace Infa.Application.Services
 
             EditRequestSellerVM sellerVM = new EditRequestSellerVM()
             {
-                StoreName    = seller.StoreName,
-                Address      = seller.Address,
-                Description  = seller.Description,
+                StoreName = seller.StoreName,
+                Address = seller.Address,
+                Description = seller.Description,
                 MobileNumber = seller.MobileNumber,
-                PhoneNumber  = seller.PhoneNumber,
-                SellerId     = seller.Id
+                PhoneNumber = seller.PhoneNumber,
+                SellerId = seller.Id
             };
 
             return sellerVM;
         }
 
-
-
         public async Task<EditRequestSellerResult> EditRequestSellerPanel(EditRequestSellerVM sellerVM, string userId)
         {
-           var seller = _sellerRepositories.GetSellerById(sellerVM.SellerId).Result;
+            var seller = _sellerRepositories.GetSellerById(sellerVM.SellerId).Result;
 
             if (seller == null || seller.UserId != userId)
             {
@@ -136,14 +132,14 @@ namespace Infa.Application.Services
                 return EditRequestSellerResult.CantEditNow;
             }
 
-            seller.PhoneNumber          = sellerVM.PhoneNumber;
-            seller.Description          = sellerVM.Description;
-            seller.StoreName            = sellerVM.StoreName;
-            seller.MobileNumber         = sellerVM.MobileNumber;
-            seller.Address              = sellerVM.Address;
+            seller.PhoneNumber = sellerVM.PhoneNumber;
+            seller.Description = sellerVM.Description;
+            seller.StoreName = sellerVM.StoreName;
+            seller.MobileNumber = sellerVM.MobileNumber;
+            seller.Address = sellerVM.Address;
             seller.StoreAcceptanceState = StoreAcceptanceState.UnderProgress;
-            seller.EditedAt             = PersianDateTime.Now();
-            
+            seller.EditedAt = PersianDateTime.Now();
+
 
             _sellerRepositories.UpdateSeller(seller);
             await _sellerRepositories.SaveChanges();
@@ -193,8 +189,58 @@ namespace Infa.Application.Services
             return sellerVM;
         }
 
+        public async Task<SellerFilterVM> FilterSellerForAdmin(SellerFilterVM sellerFilterVM)
+        {
+            var query = await _sellerRepositories.GetAllSellers();
 
 
+            switch (sellerFilterVM.StoreAcceptanceState)
+            {
+                case StoreAcceptanceState.Accepted:
+                    query = query.Where(sas => sas.StoreAcceptanceState == StoreAcceptanceState.Accepted).ToList();
+                    break;
+                case StoreAcceptanceState.Rejected:
+                    query = query.Where(sas => sas.StoreAcceptanceState == StoreAcceptanceState.Rejected).ToList();
+                    break;
+                case StoreAcceptanceState.UnderProgress:
+                    query = query.Where(sas => sas.StoreAcceptanceState == StoreAcceptanceState.UnderProgress).ToList();
+                    break;
+                case StoreAcceptanceState.All:
+                    break;
+                default:
+                    break;
+            }
 
+
+            switch (sellerFilterVM.OrderBy)
+            {
+                case OrderBy.Order_DEC:
+                    query = query.OrderByDescending(cr => cr.CreateAt).ToList();
+                    break;
+                case OrderBy.Order_ACE:
+                    query = query.OrderBy(cr => cr.CreateAt).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(sellerFilterVM.StoreName))
+            {
+                query = query.Where(s => s.StoreName.EndsWith(sellerFilterVM.StoreName) || s.StoreName.Contains(sellerFilterVM.StoreName) || s.StoreName.StartsWith(sellerFilterVM.StoreName)).ToList();
+            }
+            if (!string.IsNullOrEmpty(sellerFilterVM.PhoneNumber))
+            {
+                query = query.Where(s => s.StoreName.EndsWith(sellerFilterVM.PhoneNumber) || s.PhoneNumber.Contains(sellerFilterVM.PhoneNumber) || s.StoreName.StartsWith(sellerFilterVM.PhoneNumber)).ToList();
+            }
+            if (!string.IsNullOrEmpty(sellerFilterVM.MobileNumber))
+            {
+                query = query.Where(s => s.StoreName.EndsWith(sellerFilterVM.MobileNumber) || s.MobileNumber.Contains(sellerFilterVM.MobileNumber) || s.StoreName.StartsWith(sellerFilterVM.MobileNumber)).ToList();
+            }
+
+
+            sellerFilterVM.sellers = query;
+
+            return sellerFilterVM;
+        }
     }
 }

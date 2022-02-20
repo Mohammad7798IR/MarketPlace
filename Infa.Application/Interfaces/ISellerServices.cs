@@ -20,5 +20,7 @@ namespace Infa.Application.Interfaces
 
         Task<SellerFilterVM> FliterSeller(SellerFilterVM sellerVM, string userId);
 
+        Task<SellerFilterVM> FilterSellerForAdmin(SellerFilterVM sellerFilterVM);
+
     }
 }
