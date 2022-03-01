@@ -18,11 +18,13 @@ namespace Infa.Domain.Interfaces
 
         Task<bool> UserExistsByActiveCode(string activeCode);
 
-        Task<ApplicationUser> GetByEmail(string email);
+        Task<ApplicationUser> GetUserByEmail(string email);
 
-        Task<ApplicationUser> GetByActiveCode(string activeCode);  
+        Task<ApplicationUser> GetByActiveCode(string activeCode);
 
-       
+        Task<ApplicationUser> GetUsersRolesByUserId(string userId);
+
+        Task AddUserRoles(ApplicationUserRole userRole);
 
     }
     public partial interface IUserRepositories

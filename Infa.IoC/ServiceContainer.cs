@@ -28,6 +28,8 @@ namespace Infa.IoC
 
             services.AddScoped<ISellerServices, SellerServices>();
 
+            services.AddScoped<IProductServices, ProductServices>();
+
             #endregion
 
 
@@ -40,6 +42,8 @@ namespace Infa.IoC
             services.AddScoped<ISiteRepositories, SiteRepositories>();
 
             services.AddScoped<ISellerRepositories, SellerRepositories>();
+
+            services.AddScoped<IProductRepositories, ProductRepositories>();
 
             #endregion
 

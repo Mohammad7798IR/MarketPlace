@@ -22,7 +22,6 @@ namespace Infa.Domain.ViewModels.Store
 
         public string Code { get; set; }
 
-
         public string UserId { get; set; }
 
     }
@@ -55,7 +54,9 @@ namespace Infa.Domain.ViewModels.Store
 
     public enum OrderBy
     {
+        [Display(Name ="جدید ترین")]
         Order_DEC,
+        [Display(Name = "قدیمی ترین")]
         Order_ACE
     }
 

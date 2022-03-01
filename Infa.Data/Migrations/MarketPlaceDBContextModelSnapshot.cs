@@ -178,19 +178,19 @@ namespace Infa.Data.Migrations
                         new
                         {
                             Id = "ea345380-5af2-4d0c-a0e2-65f3eeabb898",
-                            ConcurrencyStamp = "d3ff572b-c6bd-4048-8d3e-548b34eef447",
+                            ConcurrencyStamp = "6962ac5b-96d1-4099-a72d-8619b3beddb7",
                             Name = "AplicationAdmin"
                         },
                         new
                         {
                             Id = "19b499d6-8920-43c0-a6d7-bbe48c42f7b3",
-                            ConcurrencyStamp = "3cacccc0-1aa7-413b-9de7-9fe6df43303f",
+                            ConcurrencyStamp = "3c1525e3-af57-4da6-8f80-0cfec9aebcdc",
                             Name = "AplicationUser"
                         },
                         new
                         {
                             Id = "ac0e1032-58c2-449a-8b47-7f6838386bc0",
-                            ConcurrencyStamp = "104257c5-0bfa-4243-aa28-f0ebeb0d6c36",
+                            ConcurrencyStamp = "8051224e-d7b0-45ff-ad91-06dfc1fa586e",
                             Name = "AplicationSeller"
                         });
                 });
@@ -295,6 +295,133 @@ namespace Infa.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole", (string)null);
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("Code")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreateAt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EditedAt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category", (string)null);
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Product", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("Code")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreateAt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EditedAt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductAcceptOrRejectDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductAcceptanceState")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SellerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Product", (string)null);
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.ProductCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("Code")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreateAt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EditedAt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductCategory", (string)null);
                 });
 
             modelBuilder.Entity("Infa.Domain.Models.Site.AppSetting", b =>
@@ -557,6 +684,36 @@ namespace Infa.Data.Migrations
                     b.Navigation("applicationUser");
                 });
 
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Product", b =>
+                {
+                    b.HasOne("Infa.Domain.Models.Store.Seller", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.ProductCategory", b =>
+                {
+                    b.HasOne("Infa.Domain.Models.SellersProduct.Category", "Category")
+                        .WithMany("productCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Infa.Domain.Models.SellersProduct.Product", "Product")
+                        .WithMany("productCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Infa.Domain.Models.Store.Seller", b =>
                 {
                     b.HasOne("Infa.Domain.Models.Identity.ApplicationUser", "user")
@@ -589,6 +746,21 @@ namespace Infa.Data.Migrations
                     b.Navigation("UserRoles");
 
                     b.Navigation("ticketMessages");
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Category", b =>
+                {
+                    b.Navigation("productCategories");
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Product", b =>
+                {
+                    b.Navigation("productCategories");
+                });
+
+            modelBuilder.Entity("Infa.Domain.Models.Store.Seller", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

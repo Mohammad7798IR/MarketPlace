@@ -1,5 +1,6 @@
 ﻿using Infa.Domain.Models.Contacts;
 using Infa.Domain.Models.Identity;
+using Infa.Domain.Models.SellersProduct;
 using Infa.Domain.Models.Site;
 using Infa.Domain.Models.Store;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,12 @@ namespace Infa.Data.Context
         public DbSet<TicketMessage> TicketMessages { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
+
+        public DbSet<Product> Product { get; set; }
+
+        public DbSet<Category> Category { get; set; }
+
+        public DbSet<ProductCategory> ProductCategory { get; set; }
     }
 
 
@@ -53,7 +60,7 @@ namespace Infa.Data.Context
 
             builder.Entity<ApplicationUser>().ToTable("User");
 
-            builder.Entity<ApplicationUser>().HasKey(pk=>pk.Id);
+            builder.Entity<ApplicationUser>().HasKey(pk => pk.Id);
 
 
             #endregion
@@ -69,7 +76,7 @@ namespace Infa.Data.Context
                 .HasData(new ApplicationRole
                 {
                     Id = "ea345380-5af2-4d0c-a0e2-65f3eeabb898",
-                    Name ="AplicationAdmin"
+                    Name = "AplicationAdmin"
                 });
 
             builder.Entity<ApplicationRole>()
@@ -155,19 +162,19 @@ namespace Infa.Data.Context
 
             builder.Entity<AppSetting>().ToTable("AppSetting");
 
-            builder.Entity<AppSetting>().HasKey(pk=>pk.Id);
+            builder.Entity<AppSetting>().HasKey(pk => pk.Id);
 
             builder.Entity<AppSetting>()
                 .HasData(new AppSetting
                 {
-                    Id         = "99d2a56b89f9401c9466f83b1a65a582",
-                    Mobile     = "09123333333",
-                    Address    = "Tehran , Tehran nou",
-                    CopyRight  = "کپی بخش یا کل هر کدام از مطالب تنها با کسب مجوز مکتوب امکان پذیر است.",
-                    Email      = "mohammad.eb231298@gmail.com",
-                    Phone      = "771778985462",
+                    Id = "99d2a56b89f9401c9466f83b1a65a582",
+                    Mobile = "09123333333",
+                    Address = "Tehran , Tehran nou",
+                    CopyRight = "کپی بخش یا کل هر کدام از مطالب تنها با کسب مجوز مکتوب امکان پذیر است.",
+                    Email = "mohammad.eb231298@gmail.com",
+                    Phone = "771778985462",
                     FooterText = "داغ‌ترین مطالب هفته",
-                    Description= "سایت فروشگاه ساز"
+                    Description = "سایت فروشگاه ساز"
                 });
 
             #endregion
@@ -182,15 +189,15 @@ namespace Infa.Data.Context
 
 
             builder.Entity<Ticket>()
-                .HasOne(u=>u.Owner)
-                .WithMany(t=>t.Tickets)
-                .HasForeignKey(fk=>fk.OwnerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+                .HasOne(u => u.Owner)
+                .WithMany(t => t.Tickets)
+                .HasForeignKey(fk => fk.OwnerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
 
             builder.Entity<Ticket>()
-                .HasMany(tm=>tm.ticketMessages)
-                .WithOne(t=>t.Ticket)
-                .HasForeignKey(fk=>fk.TicketId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+                .HasMany(tm => tm.ticketMessages)
+                .WithOne(t => t.Ticket)
+                .HasForeignKey(fk => fk.TicketId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
 
             #endregion
@@ -204,9 +211,9 @@ namespace Infa.Data.Context
                 .HasKey(pk => pk.Id);
 
             builder.Entity<TicketMessage>()
-                .HasOne(u=>u.Sender)
-                .WithMany(u=>u.ticketMessages)
-                .HasForeignKey(fk=>fk.SenderId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+                .HasOne(u => u.Sender)
+                .WithMany(u => u.ticketMessages)
+                .HasForeignKey(fk => fk.SenderId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 
@@ -216,13 +223,58 @@ namespace Infa.Data.Context
             builder.Entity<Seller>().ToTable("Seller");
 
             builder.Entity<Seller>()
-                .HasKey(pk=>pk.Id);
-
+                .HasKey(pk => pk.Id);
 
             builder.Entity<Seller>()
                 .HasOne(u => u.user)
                 .WithMany(s => s.Sellers)
                 .HasForeignKey(fk => fk.UserId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+
+            #endregion
+
+
+            #region Product
+
+            builder.Entity<Product>().ToTable("Product");
+
+            builder.Entity<Product>()
+                .HasKey(pk => pk.Id);
+
+            builder.Entity<Product>()
+                .HasOne(s => s.Seller)
+                .WithMany(p => p.Products)
+                .HasForeignKey(fk => fk.SellerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+            #endregion
+
+
+            #region Category
+
+            builder.Entity<Category>().ToTable("Category");
+
+            builder.Entity<Category>()
+                 .HasKey(pk => pk.Id);
+
+            #endregion
+
+
+            #region ProductCategory
+
+            builder.Entity<ProductCategory>().ToTable("ProductCategory");
+
+            builder.Entity<ProductCategory>()
+                 .HasKey(pk => pk.Id);
+
+            builder.Entity<ProductCategory>()
+                 .HasOne(p => p.Product)
+                 .WithMany(pg => pg.productCategories)
+                 .HasForeignKey(fk => fk.ProductId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<ProductCategory>()
+                 .HasOne(p => p.Category)
+                 .WithMany(pg => pg.productCategories)
+                . HasForeignKey(fk => fk.CategoryId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 

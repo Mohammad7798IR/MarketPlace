@@ -5,6 +5,7 @@ using Infa.Domain.Interfaces;
 using Infa.Domain.Models.Contacts;
 using Infa.Domain.Models.Identity;
 using Infa.Domain.Models.Store;
+using Infa.Domain.ViewModels.Common;
 using Infa.Domain.ViewModels.Contact;
 using Infa.Domain.ViewModels.Store;
 using MarketPlace.Application.Extensions;
@@ -12,6 +13,7 @@ using MarketPlace.Application.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,18 +27,19 @@ namespace Infa.Application.Services
         private readonly ISellerRepositories _sellerRepositories;
         private readonly IUserRepositories _userRepositories;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
 
         public SellerServices(
             ISellerRepositories SellerRepositories,
             UserManager<ApplicationUser> userManager,
-            IUserRepositories userRepositories
-            )
+            IUserRepositories userRepositories,
+            IConfiguration configuration)
         {
             _sellerRepositories = SellerRepositories;
             _userManager = userManager;
             _userRepositories = userRepositories;
+            _configuration = configuration;
         }
-
 
     }
 
@@ -242,5 +245,59 @@ namespace Infa.Application.Services
 
             return sellerFilterVM;
         }
+
+        public async Task<bool> AcceptSellerRequest(string sellerId)
+        {
+            var seller = _sellerRepositories.GetSellerById(sellerId).Result;
+
+            if (seller == null) return false;
+
+
+
+            foreach (var item in seller.user.UserRoles)
+            {
+                item.RoleId = _configuration.GetSection("Roles")["AplicationSeller"];
+                item.UserId = seller.UserId;
+                item.Id = Guid.NewGuid().ToString();
+                await _userRepositories.AddUserRoles(item);
+                await _userRepositories.SaveChanges();
+            }
+
+            seller.StoreAcceptanceState = StoreAcceptanceState.Accepted;
+            seller.EditedAt = PersianDateTime.Now();
+
+
+            _sellerRepositories.UpdateSeller(seller);
+            await _sellerRepositories.SaveChanges();
+
+            return true;
+
+
+        }
+
+        public async Task<bool> RejectSellerRequest(RejectItemVM rejectItemVM)
+        {
+            var seller = await _sellerRepositories.GetSellerByCode(rejectItemVM.Code);
+
+
+            if (seller == null)
+                return false;
+
+            seller.StoreAcceptanceState = StoreAcceptanceState.Rejected;
+            seller.EditedAt = PersianDateTime.Now();
+            seller.StoreAcceptanceStateDescription = rejectItemVM.RejectMessage;
+
+            _sellerRepositories.UpdateSeller(seller);
+            await _sellerRepositories.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<string> GetLastActiveSellerId(string userId)
+        {
+            var seller = await _sellerRepositories.GetLastActiveSeller(userId);
+            return seller.Id;
+        }
+
     }
 }

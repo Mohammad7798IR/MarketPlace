@@ -52,15 +52,15 @@ namespace Infa.Domain.Models.Identity
     //Relations
     public partial class ApplicationUser
     {
-        public ICollection<ApplicationUserRole>? UserRoles { get; set; }
+        public ICollection<ApplicationUserRole>? UserRoles { get; set; } = new HashSet<ApplicationUserRole>();
 
-        public ICollection<ContactUs>? ContactUses { get; set; }
+        public ICollection<ContactUs>? ContactUses { get; set; } = new HashSet<ContactUs>();
 
-        public ICollection<Ticket> Tickets { get; set; }
+        public ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
 
-        public ICollection<TicketMessage> ticketMessages { get; set; }
+        public ICollection<TicketMessage> ticketMessages { get; set; } = new HashSet<TicketMessage>();
 
-        public ICollection<Seller> Sellers { get; set; }
+        public ICollection<Seller> Sellers { get; set; } = new HashSet<Seller>();
     }
 
     public enum Gender

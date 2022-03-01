@@ -1,4 +1,6 @@
 ﻿using Infa.Domain.Models.Contacts;
+using Infa.Domain.Models.Store;
+using Infa.Domain.ViewModels.Common;
 using Infa.Domain.ViewModels.Contact;
 using Infa.Domain.ViewModels.Store;
 using Microsoft.AspNetCore.Http;
@@ -22,5 +24,10 @@ namespace Infa.Application.Interfaces
 
         Task<SellerFilterVM> FilterSellerForAdmin(SellerFilterVM sellerFilterVM);
 
+        Task<string> GetLastActiveSellerId(string sellerId);
+
+        Task<bool> AcceptSellerRequest(string sellerId);
+
+        Task<bool> RejectSellerRequest(RejectItemVM rejectItemVM);
     }
 }

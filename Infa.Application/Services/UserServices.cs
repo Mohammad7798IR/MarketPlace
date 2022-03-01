@@ -107,7 +107,7 @@ namespace Infa.Application.Services
 
         public async Task<LoginUserResult> Login(LoginUserVM userVM)
         {
-            var user = await _userRepositories.GetByEmail(userVM.Email);
+            var user = await _userRepositories.GetUserByEmail(userVM.Email);
 
             if (user != null)
             {
@@ -143,7 +143,7 @@ namespace Infa.Application.Services
 
         public async Task<ForgotPasswordResult> ForgotPassword(ForgotPasswordUserVM userVM)
         {
-            var user = await _userRepositories.GetByEmail(userVM.Email);
+            var user = await _userRepositories.GetUserByEmail(userVM.Email);
 
             if (user != null)
             {
@@ -205,7 +205,7 @@ namespace Infa.Application.Services
 
         public Task<ApplicationUser> GetByEmail(string email)
         {
-            return _userRepositories.GetByEmail(email);
+            return _userRepositories.GetUserByEmail(email);
         }
     }
 

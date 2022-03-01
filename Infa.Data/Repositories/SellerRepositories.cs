@@ -20,7 +20,6 @@ namespace Infa.Data.Repositories
             _context = context;
         }
 
-     
     }
     public partial class SellerRepositories
     {
@@ -50,14 +49,25 @@ namespace Infa.Data.Repositories
 
         public async Task<Seller> GetSellerById(string sellerId)
         {
-            return await _context.Sellers.AsQueryable()
+            return await _context.Sellers.Include(u=>u.user).ThenInclude(u=>u.UserRoles).AsQueryable()
                 .Where(s=>s.Id==sellerId).SingleOrDefaultAsync();
+        }
+
+        public async Task<Seller> GetSellerByCode(long code)
+        {
+           return await _context.Sellers.Where(c=>c.Code==code).FirstOrDefaultAsync();
         }
 
         public async Task<List<Seller>> GetAllSellers()
         {
             return await _context.Sellers.AsQueryable()
                 .Where(x => x.IsDeleted == false).ToListAsync();
+        }
+        public async Task<Seller> GetLastActiveSeller(string userId)
+        {
+            return await _context.Sellers.AsQueryable()
+                .OrderByDescending(c => c.CreateAt)
+                .FirstOrDefaultAsync(x => !x.IsDeleted && x.UserId == userId && x.StoreAcceptanceState == StoreAcceptanceState.Accepted); 
         }
     }
 

@@ -20,7 +20,11 @@ namespace Infa.Domain.Interfaces
 
         Task<Seller> GetSellerById(string sellerId);
 
+        Task<Seller> GetSellerByCode(long code);
+
         Task<List<Seller>> GetAllSellers();
+
+        Task<Seller> GetLastActiveSeller(string userId);
 
         Task SaveChanges();
 

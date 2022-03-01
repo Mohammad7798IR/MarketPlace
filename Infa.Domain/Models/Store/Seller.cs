@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infa.Domain.Models.SellersProduct;
 
 namespace Infa.Domain.Models.Store
 {
@@ -45,6 +46,10 @@ namespace Infa.Domain.Models.Store
         public string UserId { get; set; }
 
         public ApplicationUser user { get; set; }
+
+        public ICollection<Product> Products { get; set; }
+
+
     }
 
     public enum StoreAcceptanceState

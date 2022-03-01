@@ -20,26 +20,26 @@ namespace Infa.Data.Repositories
             _context = context;
         }
 
-    
+
     }
-    public partial class UserRepositories 
+    public partial class UserRepositories
     {
         public async Task<ApplicationUser> GetByActiveCode(string activeCode)
         {
-           return await _context.Users.AsQueryable()
-                .SingleOrDefaultAsync(u=> u.ActiveCode == activeCode);
+            return await _context.Users.AsQueryable()
+                 .SingleOrDefaultAsync(u => u.ActiveCode == activeCode);
         }
 
         public async Task<bool> UserExistsByEmail(string email)
         {
-           return await _context.Users.AsQueryable()
-                .AnyAsync(e=>e.Email == email);
+            return await _context.Users.AsQueryable()
+                 .AnyAsync(e => e.Email == email);
         }
 
         public async Task<bool> UserExistsByPhone(string phone)
         {
             return await _context.Users.AsQueryable()
-                .AnyAsync(e=>e.PhoneNumber == phone);
+                .AnyAsync(e => e.PhoneNumber == phone);
         }
 
         public async Task<bool> UserExistsByUserName(string userName)
@@ -48,11 +48,16 @@ namespace Infa.Data.Repositories
               .AnyAsync(e => e.UserName == userName);
         }
 
-        public async Task<ApplicationUser> GetByEmail(string email)
+        public async Task<ApplicationUser> GetUserByEmail(string email)
         {
-           return await _context.Users.AsNoTracking().AsQueryable()
-                .Include(ur=>ur.UserRoles).Where(e=>e.Email==email).SingleOrDefaultAsync();
+            return await _context.Users.AsNoTracking().AsQueryable()
+                 .Include(ur => ur.UserRoles).Where(e => e.Email == email).SingleOrDefaultAsync();
 
+        }
+
+        public async Task<ApplicationUser> GetUsersRolesByUserId(string userId)
+        {
+            return await _context.Users.AsQueryable().Include(t => t.UserRoles).Where(u => u.Id == userId).FirstOrDefaultAsync();
         }
 
         public Task<bool> UserExistsByActiveCode(string activeCode)
@@ -67,6 +72,11 @@ namespace Infa.Data.Repositories
 
     public partial class UserRepositories
     {
+        public async Task AddUserRoles(ApplicationUserRole userRole)
+        {
+            await _context.UserRoles.AddAsync(userRole);
+        }
+
         public void UpdateUser(ApplicationUser user)
         {
             _context.Users.Update(user);

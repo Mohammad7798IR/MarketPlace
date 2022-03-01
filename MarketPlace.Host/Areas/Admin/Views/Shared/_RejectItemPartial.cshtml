@@ -1,0 +1,10 @@
+﻿@model Infa.Domain.ViewModels.Common.RejectItemVM
+
+
+<input type="hidden" asp-for=Code />
+
+<div class="form-group">
+    <label for="definpu">متن مورد نظر</label>
+    <textarea class="form-control" asp-for=RejectMessage rows="3" cols="10"></textarea>
+    <span class="text-danger" asp-validation-for="RejectMessage"></span>
+</div>
