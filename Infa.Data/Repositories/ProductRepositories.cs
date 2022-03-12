@@ -19,14 +19,26 @@ namespace Infa.Data.Repositories
             _context = context;
         }
 
+      
     }
 
     public partial class ProductRepositories
     {
+        public async Task<List<Category>> GetAllCategories()
+        {
+            return await _context.Category.Where(a=>a.IsActive && !a.IsDeleted).ToListAsync();
+        }
+
         public async Task<List<Product>> GetAllProducts(string sellerId)
         {
             return await _context.Product.AsQueryable()
-                .Where(x => x.IsDeleted == false &&  x.SellerId==sellerId).ToListAsync();
+                .Where(x => x.IsDeleted == false && x.SellerId == sellerId).ToListAsync();
+        }
+
+        public async Task<List<Category>> GetAllCategoryByParentId(string parentId)
+        {
+            return await _context.Category.AsQueryable()
+                 .Include(p => p.Parent).Where(a => a.IsActive && !a.IsDeleted && a.ParentId == parentId).ToListAsync();
         }
     }
 
@@ -40,6 +52,10 @@ namespace Infa.Data.Repositories
         public void UpdateProduct(Product Product)
         {
             _context.Product.Update(Product);
+        }
+        public async Task AddProduct(Product Product)
+        {
+            await _context.Product.AddAsync(Product);
         }
     }
 }

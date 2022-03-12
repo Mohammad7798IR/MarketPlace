@@ -1,5 +1,7 @@
-﻿using Infa.Domain.Models.Store;
+﻿using Infa.Domain.Models.SellersProduct;
+using Infa.Domain.Models.Store;
 using Infa.Domain.ViewModels.Products;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,10 @@ namespace Infa.Application.Interfaces
     {
         Task<FilterProductsVM> filterProducts(FilterProductsVM filterProductsVM);
 
-    
+        Task<List<Category>> GetAllCategoriesByParentId(string parentId);
+
+        Task<List<Category>> GetAllCategories();
+
+        Task<CreateProductResult> CreateProduct(CreateProductVM productVM, IFormFile postedFile, string sellerId);
     }
 }

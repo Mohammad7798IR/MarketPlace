@@ -12,13 +12,17 @@ namespace Infa.Domain.Interfaces
     public partial interface IProductRepositories
     {
         Task<List<Product>> GetAllProducts(string sellerId);
+
+        Task<List<Category>> GetAllCategories();
+
+        Task<List<Category>> GetAllCategoryByParentId(string parentId);
     }
 
 
     public partial interface IProductRepositories
     {
         void UpdateProduct(Product Product);
-
+        Task AddProduct(Product Product);
         Task SaveChanges();
     }
 }

@@ -47,6 +47,8 @@ namespace Infa.Data.Context
         public DbSet<Category> Category { get; set; }
 
         public DbSet<ProductCategory> ProductCategory { get; set; }
+
+        public DbSet<ProductColor> ProductColor { get; set; }
     }
 
 
@@ -253,6 +255,7 @@ namespace Infa.Data.Context
 
             builder.Entity<Category>().ToTable("Category");
 
+
             builder.Entity<Category>()
                  .HasKey(pk => pk.Id);
 
@@ -275,6 +278,21 @@ namespace Infa.Data.Context
                  .HasOne(p => p.Category)
                  .WithMany(pg => pg.productCategories)
                 . HasForeignKey(fk => fk.CategoryId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+            #endregion
+
+
+            #region ProductColor
+
+            builder.Entity<ProductColor>().ToTable("ProductColor");
+
+            builder.Entity<ProductColor>()
+                 .HasKey(pk => pk.Id);
+
+            builder.Entity<ProductColor>()
+                .HasOne(p => p.Product)
+                .WithMany(pc => pc.ProductColors)
+                .HasForeignKey(fk => fk.ProductId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 

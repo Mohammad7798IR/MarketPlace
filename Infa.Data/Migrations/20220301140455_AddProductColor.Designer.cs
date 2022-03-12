@@ -4,6 +4,7 @@ using Infa.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infa.Data.Migrations
 {
     [DbContext(typeof(MarketPlaceDBContext))]
-    partial class MarketPlaceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220301140455_AddProductColor")]
+    partial class AddProductColor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,19 +180,19 @@ namespace Infa.Data.Migrations
                         new
                         {
                             Id = "ea345380-5af2-4d0c-a0e2-65f3eeabb898",
-                            ConcurrencyStamp = "39e1e415-a512-4811-ab6a-aeb49863887e",
+                            ConcurrencyStamp = "3cf75e8b-2ca5-444b-8c42-28fe5dd7cf0b",
                             Name = "AplicationAdmin"
                         },
                         new
                         {
                             Id = "19b499d6-8920-43c0-a6d7-bbe48c42f7b3",
-                            ConcurrencyStamp = "a922df75-5f63-4030-946d-442a7b671755",
+                            ConcurrencyStamp = "e391b312-3c54-4fec-8d0b-696677daa32e",
                             Name = "AplicationUser"
                         },
                         new
                         {
                             Id = "ac0e1032-58c2-449a-8b47-7f6838386bc0",
-                            ConcurrencyStamp = "124fabeb-71ef-4de9-bddb-ae78dec64f90",
+                            ConcurrencyStamp = "34445278-6f8c-45f2-9507-18c00961a199",
                             Name = "AplicationSeller"
                         });
                 });
@@ -318,17 +320,12 @@ namespace Infa.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ParentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Category", (string)null);
                 });
@@ -724,15 +721,6 @@ namespace Infa.Data.Migrations
                     b.Navigation("applicationRole");
 
                     b.Navigation("applicationUser");
-                });
-
-            modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Category", b =>
-                {
-                    b.HasOne("Infa.Domain.Models.SellersProduct.Category", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Infa.Domain.Models.SellersProduct.Product", b =>

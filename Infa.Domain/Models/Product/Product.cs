@@ -62,6 +62,8 @@ namespace Infa.Domain.Models.SellersProduct
         public Seller Seller { get; set; }
 
         public ICollection<ProductCategory> productCategories { get; set; } = new HashSet<ProductCategory>();
+
+        public ICollection<ProductColor> ProductColors { get; set; } = new HashSet<ProductColor>();
     }
 
     #endregion

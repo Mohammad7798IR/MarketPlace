@@ -16,6 +16,8 @@ namespace Infa.Domain.Models.SellersProduct
 
         [Display(Name = "فعال / غیر فعال")]
         public bool IsActive { get; set; }
+
+        public string? ParentId { get; set; }
     }
 
     #region relations 
@@ -23,6 +25,10 @@ namespace Infa.Domain.Models.SellersProduct
     public partial class Category
     {
         public ICollection<ProductCategory> productCategories { get; set; } = new HashSet<ProductCategory>();
+
+        public Category? Parent { get; set; }
+
+        //public ICollection<Category> subCategories { get; set; } = new HashSet<Category>();
     }
 
     #endregion

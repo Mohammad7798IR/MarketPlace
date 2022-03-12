@@ -41,7 +41,7 @@ namespace Infa.Application.Utils
 
         public static string ProductThumbnailImage = "/content/images/product/thumb/";
 
-        public static string ProductThumbnailImageImageServer =
+        public static string ProductThumbnailImageServer =
             Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/images/product/thumb/");
 
         #endregion
