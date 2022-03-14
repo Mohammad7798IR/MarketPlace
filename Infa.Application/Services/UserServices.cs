@@ -81,7 +81,7 @@ namespace Infa.Application.Services
             var userRole = new ApplicationUserRole();
 
 
-            userRole.Id = Guid.NewGuid().ToString();
+            userRole.Id     = Guid.NewGuid().ToString();
             userRole.UserId = newUser.Id;
             userRole.RoleId = _configuration.GetSection("Roles")["AplicationUser"];
 

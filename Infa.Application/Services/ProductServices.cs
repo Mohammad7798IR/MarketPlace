@@ -71,14 +71,7 @@ namespace Infa.Application.Services
 
         public async Task<List<Category>> GetAllCategoriesByParentId(string? parentId)
         {
-            if (parentId == null)
-            {
-                return await _productRepositories.GetAllCategoryByParentId(parentId);
-            }
-
-
-            return await _productRepositories.GetAllCategoryByParentId(parentId);
-
+            return await _productRepositories.GetAllCategories();
         }
 
         public async Task<List<Category>> GetAllCategories()
@@ -88,7 +81,9 @@ namespace Infa.Application.Services
 
         public async Task<CreateProductResult> CreateProduct(CreateProductVM productVM, IFormFile postedFile, string sellerId)
         {
-            postedFile.IsImage();
+            if (!postedFile.IsImage()) return CreateProductResult.Fail;
+          
+
             string imageName = Guid.NewGuid().ToString() + Path.GetExtension(postedFile.FileName);
             postedFile.AddImageToServer(imageName, FilePath.ProductThumbnailImageServer, 100, 100, FilePath.ProductThumbnailImage);
 
@@ -104,6 +99,14 @@ namespace Infa.Application.Services
                 ImageName = imageName,
 
             };
+
+            
+
+            var productCategories = new List<ProductCategory>();
+
+        
+        
+            product.productCategories = productCategories;
 
             await _productRepositories.AddProduct(product);
             await _productRepositories.SaveChanges();

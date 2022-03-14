@@ -53,6 +53,7 @@ namespace Infa.Data.Repositories
         {
             _context.Product.Update(Product);
         }
+
         public async Task AddProduct(Product Product)
         {
             await _context.Product.AddAsync(Product);
