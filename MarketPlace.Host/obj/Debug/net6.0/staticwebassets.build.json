@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6JMidEqD5dhqvM0pdSIBUvWtgxi57xUmiWAT37Cqf7o=",
+  "Hash": "ALflO8jAcNfKfcDDGL79CHBdTynxnTQqPGGsQ4wAulI=",
   "Source": "MarketPlace.Host",
   "BasePath": "_content/MarketPlace.Host",
   "Mode": "Default",
@@ -7565,6 +7565,40 @@
       "OriginalItemSpec": "wwwroot\\Content\\Images\\Product\\Thumb\\361cfe43-e2d5-4dcb-9267-d08fe1541b6e.jpg"
     },
     {
+      "Identity": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\Content\\Images\\Product\\Thumb\\e1cdaa11-64da-409c-88c8-d36484042cad.jpg",
+      "SourceId": "MarketPlace.Host",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\",
+      "BasePath": "_content/MarketPlace.Host",
+      "RelativePath": "Content/Images/Product/Thumb/e1cdaa11-64da-409c-88c8-d36484042cad.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Content\\Images\\Product\\Thumb\\e1cdaa11-64da-409c-88c8-d36484042cad.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\Content\\Images\\Product\\Thumb\\e2b2d18e-037a-4e55-a5a8-7f5a9ee0e4c8.jpg",
+      "SourceId": "MarketPlace.Host",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\",
+      "BasePath": "_content/MarketPlace.Host",
+      "RelativePath": "Content/Images/Product/Thumb/e2b2d18e-037a-4e55-a5a8-7f5a9ee0e4c8.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Content\\Images\\Product\\Thumb\\e2b2d18e-037a-4e55-a5a8-7f5a9ee0e4c8.jpg"
+    },
+    {
       "Identity": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\Content\\Images\\Product\\Thumb\\e6797fdfb73d4851ac0de49e1754a942.jpg",
       "SourceId": "MarketPlace.Host",
       "SourceType": "Discovered",
@@ -7580,6 +7614,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Content\\Images\\Product\\Thumb\\e6797fdfb73d4851ac0de49e1754a942.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\Content\\Images\\Product\\Thumb\\f0ce77ef-8ef9-4213-adff-6640025be0cd.jpg",
+      "SourceId": "MarketPlace.Host",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\",
+      "BasePath": "_content/MarketPlace.Host",
+      "RelativePath": "Content/Images/Product/Thumb/f0ce77ef-8ef9-4213-adff-6640025be0cd.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Content\\Images\\Product\\Thumb\\f0ce77ef-8ef9-4213-adff-6640025be0cd.jpg"
     },
     {
       "Identity": "C:\\Users\\moham\\source\\repos\\MarketPlace\\MarketPlace.Host\\wwwroot\\Content\\Images\\UserAvatar\\origin\\1659f70021614ede93023b76876e3282.png",

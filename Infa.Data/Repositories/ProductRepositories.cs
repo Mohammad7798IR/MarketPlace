@@ -58,5 +58,22 @@ namespace Infa.Data.Repositories
         {
             await _context.Product.AddAsync(Product);
         }
+
+        public async Task AddProductColors(List<ProductColor> productColors)
+        {
+            foreach (var item in productColors)
+            {
+                await _context.ProductColor.AddAsync(item);
+            }
+        }
+
+        public async Task AddProductCategory(List<ProductCategory> productCategories)
+        {
+
+            foreach (var item in productCategories)
+            {
+                await _context.ProductCategory.AddAsync(item);
+            }
+        }
     }
 }

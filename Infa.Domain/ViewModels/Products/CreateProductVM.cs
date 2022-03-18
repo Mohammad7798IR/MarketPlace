@@ -29,14 +29,15 @@ namespace Infa.Domain.ViewModels.Products
         [Display(Name = "فعال / غیرفعال")]
         public bool IsActive { get; set; }
 
-        //public List<CreateProductColorVM> ProductColors { get; set; }
+        public List<CreateProductColorVM> ProductColors { get; set; }
 
         public List<string> SelectedCategories { get; set; }
     }
     public enum CreateProductResult
     {
         Success,
-        Fail
+        Fail,
+        HasNoImage
 
     }
 }

@@ -44,12 +44,29 @@ namespace MarketPlace.Host.Areas.Seller.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _productServices.CreateProduct(productVM, postedFile,User.GetUserId());
+                var seller = await _sellerServices.GetLastActiveSellerId(User.GetUserId());
+                var result = await _productServices.CreateProduct(productVM, postedFile,seller);
+                switch (result)
+                {
+                    case CreateProductResult.Success:
+                        TempData[SuccessMessage] = $"محصول مورد نظر با عنوان {productVM.Title} با موفقیت ثبت شد";
+                        return RedirectToAction("Index");
 
+                    case CreateProductResult.HasNoImage:
+                        TempData[WarningMessage] = "لطفا تصویر محصول را وارد نمایید";
+                        break;
+
+                    case CreateProductResult.Fail:
+                        TempData[ErrorMessage] = "عملیات ثبت محصول با خطا مواجه شد";
+                        break;
+                    default:
+                        break;
+                }
             }
             ViewBag.Categories = await _productServices.GetAllCategoriesByParentId(null);
             return View();
         }
+
 
         [HttpGet("product-categories/{parentId}")]
         public async Task<IActionResult> GetProductCategoriesByParent(string parentId)

@@ -22,7 +22,13 @@ namespace Infa.Domain.Interfaces
     public partial interface IProductRepositories
     {
         void UpdateProduct(Product Product);
+
         Task AddProduct(Product Product);
+
+        Task AddProductColors(List<ProductColor> productColors);
+
+        Task AddProductCategory(List<ProductCategory> productCategories);
+
         Task SaveChanges();
     }
 }

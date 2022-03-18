@@ -1,4 +1,5 @@
-﻿using Infa.Application.Interfaces;
+﻿using Common.ClassHelpers;
+using Infa.Application.Interfaces;
 using Infa.Application.Utils;
 using Infa.Domain.Interfaces;
 using Infa.Domain.Models.SellersProduct;
@@ -81,38 +82,76 @@ namespace Infa.Application.Services
 
         public async Task<CreateProductResult> CreateProduct(CreateProductVM productVM, IFormFile postedFile, string sellerId)
         {
+            if (postedFile == null) return CreateProductResult.HasNoImage;
+
             if (!postedFile.IsImage()) return CreateProductResult.Fail;
-          
+
 
             string imageName = Guid.NewGuid().ToString() + Path.GetExtension(postedFile.FileName);
-            postedFile.AddImageToServer(imageName, FilePath.ProductThumbnailImageServer, 100, 100, FilePath.ProductThumbnailImage);
+            var res = postedFile.AddImageToServer(imageName, FilePath.ProductThumbnailImageServer, 100, 100, FilePath.ProductThumbnailImage);
 
 
-            var product = new Product()
+            if (res)
             {
-                Title = productVM.Title,
-                Price = productVM.Price,
-                ShortDescription = productVM.ShortDescription,
-                Description = productVM.Description,
-                IsActive = productVM.IsActive,
-                SellerId = sellerId,
-                ImageName = imageName,
+                var product = new Product()
+                {
+                    Id=Guid.NewGuid().ToString(),
+                    Title = productVM.Title,
+                    Price = productVM.Price,
+                    ShortDescription = productVM.ShortDescription,
+                    Description = productVM.Description,
+                    IsActive = productVM.IsActive,
+                    SellerId = sellerId,
+                    ImageName = imageName,
+                    CreateAt = PersianDateTime.Now(),
+                    ProductAcceptOrRejectDescription="accepted",
+                    
+                };
 
-            };
+                await _productRepositories.AddProduct(product);
+                await _productRepositories.SaveChanges();
 
-            
+                var lstCat = new List<ProductCategory>();
 
-            var productCategories = new List<ProductCategory>();
+                foreach (var item in productVM.SelectedCategories)
+                {
+                    var selectedCat = new ProductCategory()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ProductId = product.Id,
+                        CreateAt = PersianDateTime.Now(),
+                        IsDeleted = false,
+                        CategoryId = item
+                    };
+                    lstCat.Add(selectedCat);
+                }
 
-        
-        
-            product.productCategories = productCategories;
-
-            await _productRepositories.AddProduct(product);
-            await _productRepositories.SaveChanges();
+                await _productRepositories.AddProductCategory(lstCat);
+                await _productRepositories.SaveChanges();
 
 
-            return CreateProductResult.Success;
+                var lstColor = new List<ProductColor>();
+
+                foreach (var item in productVM.ProductColors)
+                {
+                    var selectedCat = new ProductColor()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ProductId = product.Id,
+                        CreateAt = PersianDateTime.Now(),
+                        ColorName = item.ColorName,
+                        IsDeleted = false,
+                        Price = item.Price,
+                    };
+                    lstColor.Add(selectedCat);
+                }
+                await _productRepositories.AddProductColors(lstColor);
+                await _productRepositories.SaveChanges();
+
+                return CreateProductResult.Success;
+            }
+
+            return CreateProductResult.Fail;
         }
     }
 }
