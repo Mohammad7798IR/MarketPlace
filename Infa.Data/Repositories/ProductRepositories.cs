@@ -19,20 +19,31 @@ namespace Infa.Data.Repositories
             _context = context;
         }
 
-      
+
     }
 
     public partial class ProductRepositories
     {
         public async Task<List<Category>> GetAllCategories()
         {
-            return await _context.Category.Where(a=>a.IsActive && !a.IsDeleted).ToListAsync();
+            return await _context.Category.Where(a => a.IsActive && !a.IsDeleted).ToListAsync();
         }
 
         public async Task<List<Product>> GetAllProducts(string sellerId)
         {
             return await _context.Product.AsQueryable()
                 .Where(x => x.IsDeleted == false && x.SellerId == sellerId).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetAllProductsWithoutSellerId()
+        {
+            return await _context.Product.AsQueryable()
+                 .Where(x => x.IsDeleted == false).ToListAsync();
+        }
+
+        public async Task<Product> GetProductById(string id)
+        {
+            return await _context.Product.Where(x=>x.Id==id).SingleOrDefaultAsync();
         }
 
         public async Task<List<Category>> GetAllCategoryByParentId(string parentId)

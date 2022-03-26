@@ -1,5 +1,6 @@
 ﻿using Infa.Domain.Models.SellersProduct;
 using Infa.Domain.Models.Store;
+using Infa.Domain.ViewModels.Common;
 using Infa.Domain.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,9 +13,14 @@ namespace Infa.Application.Interfaces
 {
     public interface IProductServices
     {
-        Task<FilterProductsVM> filterProducts(FilterProductsVM filterProductsVM);
+        Task<FilterProductsVM> FilterProducts(FilterProductsVM filterProductsVM);
+
 
         Task<List<Category>> GetAllCategoriesByParentId(string parentId);
+
+        Task<bool> AcceptProduct(string productId);
+
+        Task<bool> RejectProduct(string productId, RejectItemVM rejectItemVM);
 
         Task<List<Category>> GetAllCategories();
 

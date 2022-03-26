@@ -27,7 +27,7 @@ namespace MarketPlace.Host.Areas.Seller.Controllers
         {
             productsVM.SellerId = await _sellerServices.GetLastActiveSellerId(User.GetUserId());
             productsVM.FilterProductState = FilterProductState.All;
-            productsVM = await _productServices.filterProducts(productsVM);
+            productsVM = await _productServices.FilterProducts(productsVM);
             return View(productsVM);
         }
 

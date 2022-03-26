@@ -15,7 +15,11 @@ namespace Infa.Domain.Interfaces
 
         Task<List<Category>> GetAllCategories();
 
+        Task<Product> GetProductById(string id);
+
         Task<List<Category>> GetAllCategoryByParentId(string parentId);
+
+        Task<List<Product>> GetAllProductsWithoutSellerId();
     }
 
 

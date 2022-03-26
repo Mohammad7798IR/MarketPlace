@@ -4,6 +4,7 @@ using Infa.Application.Utils;
 using Infa.Domain.Interfaces;
 using Infa.Domain.Models.SellersProduct;
 using Infa.Domain.Models.Store;
+using Infa.Domain.ViewModels.Common;
 using Infa.Domain.ViewModels.Products;
 using MarketPlace.Application.Extensions;
 using MarketPlace.Application.Utils;
@@ -27,33 +28,72 @@ namespace Infa.Application.Services
             _sellerRepositories = sellerRepositories;
         }
 
-
+      
     }
 
     public partial class ProductServices
     {
-        public async Task<FilterProductsVM> filterProducts(FilterProductsVM filterProductsVM)
+        public async Task<FilterProductsVM> FilterProducts(FilterProductsVM filterProductsVM)
         {
-            var query = await _productRepositories.GetAllProducts(filterProductsVM.SellerId);
+
+            if (filterProductsVM.SellerId != null)
+            {
+                var query = await _productRepositories.GetAllProducts(filterProductsVM.SellerId);
+
+                switch (filterProductsVM.FilterProductState)
+                {
+                    case FilterProductState.All:
+                        break;
+                    case FilterProductState.UnderProgress:
+                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.UnderProgress).ToList();
+                        break;
+                    case FilterProductState.Accepted:
+                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Accepted).ToList();
+                        break;
+                    case FilterProductState.Rejected:
+                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Rejected).ToList();
+                        break;
+                    case FilterProductState.Active:
+                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Active && x.IsActive).ToList();
+                        break;
+                    case FilterProductState.NotActive:
+                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.NotActive && !x.IsActive).ToList();
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(filterProductsVM.ProductTitle))
+                {
+                    query = query.Where(s => s.Title.EndsWith(filterProductsVM.ProductTitle) || s.Title.Contains(filterProductsVM.ProductTitle) || s.Title.StartsWith(filterProductsVM.ProductTitle)).ToList();
+                }
+
+                filterProductsVM.Products = query;
+
+                return filterProductsVM;
+            }
+
+
+            var products = await _productRepositories.GetAllProductsWithoutSellerId();
 
             switch (filterProductsVM.FilterProductState)
             {
                 case FilterProductState.All:
                     break;
                 case FilterProductState.UnderProgress:
-                    query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.UnderProgress).ToList();
+                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.UnderProgress).ToList();
                     break;
                 case FilterProductState.Accepted:
-                    query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Accepted).ToList();
+                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Accepted).ToList();
                     break;
                 case FilterProductState.Rejected:
-                    query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Rejected).ToList();
+                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Rejected).ToList();
                     break;
                 case FilterProductState.Active:
-                    query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Active && x.IsActive).ToList();
+                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Active && x.IsActive).ToList();
                     break;
                 case FilterProductState.NotActive:
-                    query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.NotActive && !x.IsActive).ToList();
+                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.NotActive && !x.IsActive).ToList();
                     break;
                 default:
                     break;
@@ -61,12 +101,13 @@ namespace Infa.Application.Services
 
             if (!string.IsNullOrEmpty(filterProductsVM.ProductTitle))
             {
-                query = query.Where(s => s.Title.EndsWith(filterProductsVM.ProductTitle) || s.Title.Contains(filterProductsVM.ProductTitle) || s.Title.StartsWith(filterProductsVM.ProductTitle)).ToList();
+                products = products.Where(s => s.Title.EndsWith(filterProductsVM.ProductTitle) || s.Title.Contains(filterProductsVM.ProductTitle) || s.Title.StartsWith(filterProductsVM.ProductTitle)).ToList();
             }
 
-            filterProductsVM.Products = query;
+            filterProductsVM.Products = products;
 
             return filterProductsVM;
+
 
         }
 
@@ -95,7 +136,7 @@ namespace Infa.Application.Services
             {
                 var product = new Product()
                 {
-                    Id=Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid().ToString(),
                     Title = productVM.Title,
                     Price = productVM.Price,
                     ShortDescription = productVM.ShortDescription,
@@ -104,8 +145,8 @@ namespace Infa.Application.Services
                     SellerId = sellerId,
                     ImageName = imageName,
                     CreateAt = PersianDateTime.Now(),
-                    ProductAcceptOrRejectDescription="accepted",
-                    
+                    ProductAcceptOrRejectDescription = "accepted",
+
                 };
 
                 await _productRepositories.AddProduct(product);
@@ -152,6 +193,35 @@ namespace Infa.Application.Services
             }
 
             return CreateProductResult.Fail;
+        }
+
+        public async Task<bool> AcceptProduct(string productId)
+        {
+            var product = await _productRepositories.GetProductById(productId);
+
+            if (product == null) return false;
+
+
+            product.ProductAcceptanceState           = ProductAcceptanceState.Accepted;
+            product.ProductAcceptOrRejectDescription = "Accepted";
+            _productRepositories.UpdateProduct(product);
+            await _productRepositories.SaveChanges();
+
+            return true;
+           
+        }
+
+        public async Task<bool> RejectProduct(string productId, RejectItemVM rejectItemVM)
+        {
+            var product = await _productRepositories.GetProductById(productId);
+            if (product == null) return false;
+
+            product.ProductAcceptanceState           = ProductAcceptanceState.Rejected;
+            product.ProductAcceptOrRejectDescription = rejectItemVM.RejectMessage;
+            _productRepositories.UpdateProduct(product);
+            await _productRepositories.SaveChanges();
+
+            return true;
         }
     }
 }
