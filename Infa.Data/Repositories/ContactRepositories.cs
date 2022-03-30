@@ -50,7 +50,9 @@ namespace Infa.Data.Repositories
         public async Task<Ticket> GetTicketByTicketId(string ticketId, string userId)
         {
             return await _context.Tickets.Include(tm => tm.ticketMessages)
-                .Where(t => t.Id == ticketId && t.OwnerId == userId).OrderByDescending(t=>t.CreateAt).AsNoTracking().SingleOrDefaultAsync();
+                .Where(t => t.Id == ticketId && t.OwnerId == userId)
+                .OrderByDescending(t=>t.CreateAt)
+                .AsNoTracking().SingleOrDefaultAsync();
         }
     }
 

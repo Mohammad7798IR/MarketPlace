@@ -57,10 +57,20 @@
                                                     <td>@product.Title</td>
                                                     <td>
                                                         <span class="danger">
-                                                           @Html.DisplayFor(Model=>product.ProductAcceptanceState)
+                                                            @Html.DisplayFor(Model=>product.ProductAcceptanceState)
                                                         </span>
+                                                        @if (product.ProductAcceptanceState == Infa.Domain.Models.SellersProduct.ProductAcceptanceState.Rejected)
+                                                        {
+                                                            <hr />
+                                                            <div class="text-danger">
+                                                                <p> @product.ProductAcceptOrRejectDescription</p>
+                                                            </div>
+                                                        }
                                                     </td>
-                                                    <td><a asp-area="User" asp-controller="Ticket" asp-action="TicketDetail" asp-route-ticketId="@product.Id" class="view">نمایش جزییات</a></td>
+                                                    <td><a asp-area="Seller" asp-controller="Product" asp-action="EditProduct" asp-route-productId="@product.Id" class="view">ویرایش</a></td>
+
+
+
                                                 </tr>
                                             }
                                         </tbody>

@@ -43,13 +43,25 @@ namespace Infa.Data.Repositories
 
         public async Task<Product> GetProductById(string id)
         {
-            return await _context.Product.Where(x=>x.Id==id).SingleOrDefaultAsync();
+            return await _context.Product.Where(x => x.Id == id).SingleOrDefaultAsync();
         }
 
         public async Task<List<Category>> GetAllCategoryByParentId(string parentId)
         {
             return await _context.Category.AsQueryable()
                  .Include(p => p.Parent).Where(a => a.IsActive && !a.IsDeleted && a.ParentId == parentId).ToListAsync();
+        }
+
+        public async Task<List<ProductColor>> GetProductColorsByProductId(string productId)
+        {
+            return await _context.ProductColor
+                 .Where(x => x.ProductId == productId).ToListAsync();
+        }
+
+        public async Task<List<ProductCategory>> GetProductCategoryByProductId(string productId)
+        {
+            return await _context.ProductCategory
+                 .Where(x => x.ProductId == productId).ToListAsync();
         }
     }
 

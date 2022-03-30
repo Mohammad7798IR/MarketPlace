@@ -71,11 +71,12 @@ namespace Infa.Domain.Models.SellersProduct
 
     public enum ProductAcceptanceState
     {
+        [Display(Name = "در حال بررسی")]
         UnderProgress,
+        [Display(Name = "تایید شده")]
         Accepted,
-        Rejected,
-        Active,
-        NotActive
+        [Display(Name = "رد شده")]
+        Rejected
 
     }
 }

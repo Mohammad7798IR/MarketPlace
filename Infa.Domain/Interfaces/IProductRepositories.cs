@@ -20,12 +20,18 @@ namespace Infa.Domain.Interfaces
         Task<List<Category>> GetAllCategoryByParentId(string parentId);
 
         Task<List<Product>> GetAllProductsWithoutSellerId();
+
+        Task<List<ProductCategory>> GetProductCategoryByProductId(string productId);
+
+        Task<List<ProductColor>> GetProductColorsByProductId(string productId);
     }
 
 
     public partial interface IProductRepositories
     {
         void UpdateProduct(Product Product);
+
+
 
         Task AddProduct(Product Product);
 

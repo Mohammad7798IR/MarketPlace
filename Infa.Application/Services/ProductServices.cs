@@ -28,7 +28,7 @@ namespace Infa.Application.Services
             _sellerRepositories = sellerRepositories;
         }
 
-      
+
     }
 
     public partial class ProductServices
@@ -52,12 +52,6 @@ namespace Infa.Application.Services
                         break;
                     case FilterProductState.Rejected:
                         query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Rejected).ToList();
-                        break;
-                    case FilterProductState.Active:
-                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Active && x.IsActive).ToList();
-                        break;
-                    case FilterProductState.NotActive:
-                        query = query.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.NotActive && !x.IsActive).ToList();
                         break;
                     default:
                         break;
@@ -89,19 +83,15 @@ namespace Infa.Application.Services
                 case FilterProductState.Rejected:
                     products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Rejected).ToList();
                     break;
-                case FilterProductState.Active:
-                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.Active && x.IsActive).ToList();
-                    break;
-                case FilterProductState.NotActive:
-                    products = products.Where(x => x.ProductAcceptanceState == ProductAcceptanceState.NotActive && !x.IsActive).ToList();
-                    break;
                 default:
                     break;
             }
 
             if (!string.IsNullOrEmpty(filterProductsVM.ProductTitle))
             {
-                products = products.Where(s => s.Title.EndsWith(filterProductsVM.ProductTitle) || s.Title.Contains(filterProductsVM.ProductTitle) || s.Title.StartsWith(filterProductsVM.ProductTitle)).ToList();
+                products = products.Where(s => s.Title.EndsWith(filterProductsVM.ProductTitle) ||
+                s.Title.Contains(filterProductsVM.ProductTitle) ||
+                s.Title.StartsWith(filterProductsVM.ProductTitle)).ToList();
             }
 
             filterProductsVM.Products = products;
@@ -202,13 +192,13 @@ namespace Infa.Application.Services
             if (product == null) return false;
 
 
-            product.ProductAcceptanceState           = ProductAcceptanceState.Accepted;
+            product.ProductAcceptanceState = ProductAcceptanceState.Accepted;
             product.ProductAcceptOrRejectDescription = "Accepted";
             _productRepositories.UpdateProduct(product);
             await _productRepositories.SaveChanges();
 
             return true;
-           
+
         }
 
         public async Task<bool> RejectProduct(string productId, RejectItemVM rejectItemVM)
@@ -216,12 +206,36 @@ namespace Infa.Application.Services
             var product = await _productRepositories.GetProductById(productId);
             if (product == null) return false;
 
-            product.ProductAcceptanceState           = ProductAcceptanceState.Rejected;
+            product.ProductAcceptanceState = ProductAcceptanceState.Rejected;
             product.ProductAcceptOrRejectDescription = rejectItemVM.RejectMessage;
             _productRepositories.UpdateProduct(product);
             await _productRepositories.SaveChanges();
 
             return true;
+        }
+
+
+        public async Task<EditProductVM> GetProductForEdit(string productId)
+        {
+            var product = await _productRepositories.GetProductById(productId);
+
+            if (product == null) return null;
+       
+
+            var produtVM = new EditProductVM()
+            {
+                Colors = await _productRepositories.GetProductColorsByProductId(productId),
+                Price = product.Price,
+                Id = product.Id,
+                Description = product.Description,
+                Categories = await _productRepositories.GetProductCategoryByProductId(productId),
+                Title = product.Title,
+                ShortDescription = product.ShortDescription,
+                Image = product.ImageName,
+                IsActive = product.IsActive,
+            };
+
+            return produtVM;
         }
     }
 }

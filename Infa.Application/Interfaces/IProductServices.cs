@@ -24,6 +24,8 @@ namespace Infa.Application.Interfaces
 
         Task<List<Category>> GetAllCategories();
 
+        Task<EditProductVM> GetProductForEdit(string productId);
+
         Task<CreateProductResult> CreateProduct(CreateProductVM productVM, IFormFile postedFile, string sellerId);
     }
 }

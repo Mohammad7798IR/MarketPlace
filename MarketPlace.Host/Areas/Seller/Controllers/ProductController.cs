@@ -75,5 +75,15 @@ namespace MarketPlace.Host.Areas.Seller.Controllers
 
             return JsonResponseStatus.SendStatus(JsonResponseStatusType.Success, "اطلاعات دسته بندی ها", categories);
         }
+
+
+        [HttpGet("edit-product/{productId}")]
+        public async Task<IActionResult> EditProduct(string productId)
+        {
+            var product = await _productServices.GetProductForEdit(productId);
+            if (product == null) return NotFound();
+            ViewBag.Categories = await _productServices.GetAllCategories();
+            return View(product);
+        }
     }
 }
